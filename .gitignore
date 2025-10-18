@@ -1,0 +1,42 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Dependencies
+/venv
+/backend/node_modules
+/frontend/node_modules
+/.pnp
+.pnp.js
+
+# Python cache & artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+*.egg-info/
+
+# Testing & build output
+/coverage
+/build
+/dist
+
+# Custom generated folders
+/analyze_results
+/data
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+# Ignore all local environment files
+.env
+.env.*
+# But track a template file
+!/.env.example
+
+# OS & IDE specific files
+.DS_Store
+.vscode/
+.idea/
