@@ -81,15 +81,6 @@ export default function Card({
           </button>
         </div>
       </div>
-
-      <div className="swipe-btn-group">
-        <button className="dislike-btn" onClick={onDislike}>
-          💔
-        </button>
-        <button className="like-btn" onClick={onLike}>
-          ❤️
-        </button>
-      </div>
     </div>
   );
 }

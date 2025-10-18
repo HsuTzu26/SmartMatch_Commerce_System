@@ -70,6 +70,16 @@ export default function CardStack({
         })}
       </div>
 
+      {/* ❤️💔 喜歡 / 不喜歡 */}
+      <div className="swipe-btn-group">
+        <button className="dislike-btn" onClick={() => onDislike(cards[currentIndex])}>
+          💔
+        </button>
+        <button className="like-btn" onClick={() => onLike(cards[currentIndex])}>
+          ❤️
+        </button>
+      </div>
+
       {showUndo && (
         <div className="undo-container">
           <button onClick={onUndoDislike} className="undo-btn">

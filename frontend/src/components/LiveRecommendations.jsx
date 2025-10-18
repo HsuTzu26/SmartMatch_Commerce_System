@@ -3,7 +3,6 @@ import "../App.css";
 import { CATEGORY_IMAGE_MAP } from "../utils/imageMap";
 
 export default function LiveRecommendations({ likedItems, allItems, favorites, onFavorite }) {
-  // 統計類別權重
   const categoryCount = useMemo(() => {
     const counts = {};
     likedItems.forEach((item) => {
@@ -20,7 +19,6 @@ export default function LiveRecommendations({ likedItems, allItems, favorites, o
       .map(([c]) => c);
   }, [categoryCount]);
 
-  // 推薦邏輯
   const recommended = useMemo(() => {
     if (sortedCategories.length === 0) return [];
 
@@ -30,7 +28,7 @@ export default function LiveRecommendations({ likedItems, allItems, favorites, o
         !likedItems.some((li) => li.Item_Name === i.Item_Name)
     );
 
-    return pool.sort(() => 0.5 - Math.random()).slice(0, 4);
+    return pool.sort(() => 0.5 - Math.random()).slice(0, 5);
   }, [sortedCategories, likedItems, allItems]);
 
   if (recommended.length === 0) return null;
@@ -40,7 +38,7 @@ export default function LiveRecommendations({ likedItems, allItems, favorites, o
 
   const getImage = (item) =>
     CATEGORY_IMAGE_MAP[item.Item_Name] ||
-    `https://picsum.photos/seed/${item.Item_Name}/300/200`;
+    `https://picsum.photos/seed/${encodeURIComponent(item.Item_Name)}/400/300`;
 
   return (
     <aside className="live-recommendation-panel">
@@ -54,13 +52,18 @@ export default function LiveRecommendations({ likedItems, allItems, favorites, o
       <div className="recommend-grid">
         {recommended.map((item) => (
           <div key={item.Item_Name} className="recommend-card">
-            <img src={getImage(item)} alt={item.Item_Name} />
-            <h4>{item.Item_Name}</h4>
-            <p className="price">💰 ${item.Price}</p>
-            <span className="tag">#{item.Cluster_Name}</span>
+            <img src={getImage(item)} alt={item.Item_Name} className="recommend-img" />
+            <div className="recommend-info">
+              <h4>{item.Item_Name}</h4>
+              <p className="meta">
+                ⭐ {item.Stars?.toFixed(1) || "0"}・💬 {item.Comments || 0}
+              </p>
+              <p className="price">💰 ${item.Price}</p>
+              <p className="cluster">#{item.Cluster_Name}</p>
+            </div>
 
             <button
-              className={`fav-btn ${isFavorited(item) ? "active" : ""}`}
+              className={`recommend-fav-btn ${isFavorited(item) ? "active" : ""}`}
               onClick={() => onFavorite(item)}
             >
               {isFavorited(item) ? "💛 已收藏" : "⭐ 收藏"}

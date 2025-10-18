@@ -1,3 +1,8 @@
+/**
+ * 測試 Unsplash 圖片是否有效
+ * 使用 Node.js 原生 fetch (Node 18+)
+ */
+
 export const CATEGORY_IMAGE_MAP = {
   // 3C產品
   "智慧型手機": "https://images.unsplash.com/photo-1510557880182-3d4d3cba35b6?auto=format&fit=crop&w=800&q=80",
@@ -31,3 +36,24 @@ export const CATEGORY_IMAGE_MAP = {
   "限量版漫畫套書": "https://images.unsplash.com/photo-1606112219348-204d7d8b94ee?auto=format&fit=crop&w=800&q=80",
   "多益高分單字書": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=800&q=80",
 };
+
+
+async function checkImage(url, name) {
+  try {
+    const res = await fetch(url, { method: "HEAD" });
+    if (res.ok) {
+      console.log(`✅ [200] ${name} → ${url}`);
+    } else {
+      console.warn(`⚠️ [${res.status}] ${name} → ${url}`);
+    }
+  } catch (err) {
+    console.error(`❌ Error fetching ${name}: ${err.message}`);
+  }
+}
+
+(async () => {
+  console.log("🔍 開始檢查圖片連結...\n");
+  for (const [name, url] of Object.entries(CATEGORY_IMAGE_MAP)) {
+    await checkImage(url, name);
+  }
+})();

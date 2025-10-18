@@ -82,6 +82,13 @@ body {
   padding: 16px 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .app-header {
+    white-space: normal; /* 小螢幕允許自動換行 */
+  }
 }
 
 .logo {
@@ -314,83 +321,181 @@ select:hover {
 
 
 
-/* ===================== Main ===================== */
-/* ========== 即時推薦區 ========== */
+/* ===================== 整體佈局 ===================== */
 .main-content {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 30px;
-  padding: 20px;
+  gap: 40px; /* ✅ 稍微留空卡片與清單距離 */
   position: relative;
+  padding: 20px 40px;
 }
 
+/* ====== 左側：卡片區 ====== */
 .explore-section {
-  flex: 2;
-  min-width: 300px;
+  flex: 0 0 500px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  position: sticky;
+  top: 80px;
+  z-index: 10;
 }
 
+/* ====== 右側：即時推薦清單 ====== */
 .live-recommendation-panel {
-  flex: 1;
-  max-width: 320px;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
+  position: fixed; /* ✅ 讓它靠右固定 */
+  right: 40px; /* 距離畫面右側 */
+  top: 100px;
+  width: 350px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
   border-radius: 16px;
   padding: 16px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 90px;
-  animation: fadeIn 0.6s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  max-height: 80vh; /* ✅ 高度限制 */
+  overflow-y: auto; /* ✅ 超過自動滾動 */
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
 }
 
+/* ✅ 美化滾動條 (for Chrome/Safari/Edge) */
+.live-recommendation-panel::-webkit-scrollbar {
+  width: 6px;
+}
+.live-recommendation-panel::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 6px;
+}
+
+/* ====== 標題與說明 ====== */
 .live-recommendation-panel h3 {
+  text-align: center;
   margin-bottom: 8px;
+  font-weight: 700;
 }
 
 .recommend-reason {
   font-size: 0.9rem;
   color: #555;
-  margin-bottom: 12px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
+/* ====== 推薦卡片清單 ====== */
 .recommend-grid {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
-
+/* ====== 單項推薦卡片 ====== */
 .recommend-card {
-  background: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--card-bg, #fff);
   border-radius: 12px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-  padding: 8px;
-  text-align: center;
-  transition: all 0.25s ease;
-  position: relative;
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .recommend-card:hover {
-  transform: scale(1.04);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
+/* ====== 商品圖片 ====== */
 .recommend-card img {
-  width: 100%;
-  border-radius: 10px;
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
   object-fit: cover;
-  margin-bottom: 6px;
 }
 
-.recommend-card .tag {
-  position: absolute;
-  bottom: 6px;
-  right: 8px;
-  background: rgba(255, 216, 77, 0.3);
-  border-radius: 6px;
-  padding: 2px 6px;
-  font-size: 0.7rem;
+/* ====== 商品文字區 ====== */
+.recommend-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.recommend-info h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.recommend-info .meta {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.recommend-info .price {
+  color: var(--accent-green, #2db17c);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.recommend-info .cluster {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* ====== 收藏按鈕 ====== */
+.recommend-fav-btn {
+  background: linear-gradient(135deg, #ffd84d, #ffb700);
+  border: none;
+  border-radius: 10px;
+  padding: 6px 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.25s ease, background 0.25s ease;
+  white-space: nowrap;
+}
+
+.recommend-fav-btn.active {
+  background: linear-gradient(135deg, #ffc93c, #ffb100);
+}
+
+.recommend-fav-btn:hover {
+  transform: scale(1.05);
+}
+
+/* ====== 手機響應式 ====== */
+@media (max-width: 900px) {
+  .main-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .live-recommendation-panel {
+    position: static;
+    width: 90%;
+    margin-top: 20px;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .recommend-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .recommend-card img {
+    width: 100%;
+    height: 180px;
+  }
+
+  .recommend-fav-btn {
+    width: 100%;
+  }
 }
 
 /* ========== 即時推薦收藏按鈕 ========== */
@@ -438,29 +543,33 @@ select:hover {
 /* ===================== Card Stack ===================== */
 .card-stack-container {
   position: relative;
-  flex: 1;
+  min-height: 700px;
+  height: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: 500px;
-  padding-bottom: 60px; /* 給反悔按鈕空間 */
+  justify-content: flex-start;
   overflow: visible;
 }
 
-
-.card-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 6px;
-}
-
-/* 卡片堆內部 */
+/* 卡片堆本體 */
 .card-stack {
   position: relative;
-  width: 420px;
-  height: 500px;
+  width: 400px;
+  height: 550px;
+}
+
+/* 單張卡片 */
+.card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 550px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
 }
 
 .card-wrapper {
@@ -471,6 +580,13 @@ select:hover {
   transition: transform 0.3s ease;
 }
 
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 6px;
+}
+
 /* 反悔按鈕樣式 */
 .undo-container {
   position: absolute;
@@ -479,7 +595,8 @@ select:hover {
 }
 
 .undo-btn {
-  background: #ffe57e;
+  background: #b3e5fc;
+  color: #01579b;
   border: none;
   padding: 8px 16px;
   border-radius: 12px;
@@ -489,7 +606,7 @@ select:hover {
 }
 
 .undo-btn:hover {
-  background: #ffd84d;
+  background: #81d4fa;
   transform: scale(1.05);
 }
 
@@ -501,20 +618,6 @@ select:hover {
 }
 
 /* ===================== Card ===================== */
-.card {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #fff;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: transform 0.25s ease;
-}
-
 .card:hover {
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.25);
 }
@@ -607,16 +710,13 @@ select:hover {
   background: linear-gradient(135deg, #ff7b8c, #fd5068);
 }
 
-/* ❤️ 💔 按鈕 */
+/* ❤️💔 喜歡 / 不喜歡 */
 .swipe-btn-group {
-  position: absolute;
-  bottom: -85px;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-top: 20px;
   display: flex;
-  gap: 60px;
   justify-content: center;
-  z-index: 999;
+  gap: 60px;
+  z-index: 10;
 }
 
 .swipe-btn-group button {
@@ -625,10 +725,10 @@ select:hover {
   width: 70px;
   height: 70px;
   font-size: 1.8rem;
+  color: white;
   cursor: pointer;
   transition: all 0.25s ease;
-  color: white;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
 }
 
 .like-btn {
@@ -639,10 +739,35 @@ select:hover {
   background: linear-gradient(145deg, #ff7b8c, #fd5068);
 }
 
-.swipe-btn-group button:hover {
-  transform: scale(1.15);
+/* ↩️ 反悔按鈕 */
+.undo-container {
+  margin-top: 20px;
+  text-align: center;
 }
 
+.undo-btn {
+  background: #ffe57e;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.undo-btn:hover {
+  background: #ffd84d;
+  transform: scale(1.05);
+}
+
+/* 🚫 禁止拖曳選取文字 */
+.card-stack-container,
+.card,
+.card * {
+  user-select: none !important;
+  -webkit-user-drag: none !important;
+  touch-action: none !important;
+}
 /* ===================== Footer ===================== */
 .app-footer {
   background: rgba(255, 255, 255, 0.75);
@@ -716,72 +841,183 @@ select:hover {
   }
 
   .card-stack-container {
-    padding-bottom: 80px; /* 增加 padding 來容納按鈕 */
     height: 65vh;
   }
 }
 
 /* ===================== List View ===================== */
+/* === ListView 分頁控制 === */
+.list-view-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.list-header,
+.list-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.pagination-controls button {
+  padding: 6px 12px;
+  border: none;
+  background-color: #f1f1f1;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pagination-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-size-selector select {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.page-size-input {
+  width: 60px;
+  padding: 4px 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.pagination-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.pagination-bar button {
+  padding: 6px 12px;
+  border: none;
+  background: #f1f1f1;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.pagination-bar button:hover:not(:disabled) {
+  background: #e0e0e0;
+}
+
+.pagination-bar button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-numbers {
+  display: flex;
+  gap: 6px;
+}
+
+.page-btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.page-btn.active {
+  background: linear-gradient(135deg, #5de5a2, #2db17c);
+  color: #fff;
+  border: none;
+  font-weight: bold;
+}
+
+.page-btn:hover {
+  background: #eee;
+}
+
+
 .list-view {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 18px;
-  width: 90vw;
-  max-width: 600px;
-  margin: 0 auto;
-  padding-bottom: 60px;
+  gap: 12px;
 }
 
 .list-item {
   display: flex;
   align-items: center;
   gap: 16px;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 12px 16px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-  transition: all 0.25s ease;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .list-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .list-img {
-  width: 110px;
-  height: 110px;
-  border-radius: 12px;
+  width: 120px;
+  height: 90px;
   object-fit: cover;
-  flex-shrink: 0;
+  border-radius: 8px;
 }
 
 .list-info {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
-.list-info h3 {
+.list-info h4 {
   margin: 0;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.list-info .meta,
+.list-info .price {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.favorite-btn {
+  padding: 8px 12px;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.favorite-btn.active {
+  background-color: #ffe28a;
 }
 
 .shop-name {
   margin: 2px 0;
   color: #555;
   font-size: 0.95rem;
-}
-
-.meta {
-  font-size: 0.9rem;
-  color: #777;
-  margin: 4px 0;
 }
 
 .list-bottom {
@@ -1133,3 +1369,20 @@ select:hover {
 }
 
 
+/* === 修正卡片不顯示（透明 & 被蓋）問題 === */
+.card-img {
+  display: block !important;
+  width: 100% !important;
+  height: 60% !important;
+  object-fit: cover !important;
+}
+
+.app-header {
+  z-index: 10 !important;
+  position: relative !important;
+}
+
+.explore-section {
+  overflow: visible !important;
+  z-index: 20 !important;
+}

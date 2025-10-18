@@ -25,8 +25,8 @@ export default function HeaderBar({
   }, [favorites?.length]);
 
   const modes = [
-    { key: "cards", label: "🃏 卡片" },
-    { key: "list", label: "📜 清單" },
+    { key: "cards", label: "🃏 卡片模式" },
+    { key: "list", label: "📜 清單模式" },
     { key: "favorites", label: "💛 收藏" },
     { key: "swiped", label: "🌀 已滑過" },
   ];
@@ -40,7 +40,7 @@ export default function HeaderBar({
   return (
     <header className="app-header glass-header">
       <div className="header-top">
-        <h1 className="logo">🛒 專業商品探索平台</h1>
+        <h1 className="logo">🛒 智Go配 (SmartMatch Commerce)</h1>
       </div>
 
       {/* 控制區 */}
