@@ -52,9 +52,17 @@ export default function SwipedSummary({
     ? sortedCategories[0]
     : "多樣化商品";
 
-  const getImage = (item) =>
-    CATEGORY_IMAGE_MAP[item.Item_Name] ||
-    `https://picsum.photos/seed/${item.Item_Name}/400/300`;
+  const getImage = (item) => {
+    // 找到第一個 key 被 item.Item_Name 包含的圖片
+    const matchedKey = Object.keys(CATEGORY_IMAGE_MAP).find((key) =>
+      item.Item_Name.includes(key)
+    );
+
+    // 如果找到就用對應圖片，否則 fallback
+    return matchedKey
+      ? CATEGORY_IMAGE_MAP[matchedKey]
+      : `https://picsum.photos/seed/${encodeURIComponent(item.Item_Name)}/400/300`;
+  };
 
   return (
     <div className="swiped-summary-container">

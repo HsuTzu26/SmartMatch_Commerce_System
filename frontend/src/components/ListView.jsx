@@ -49,9 +49,14 @@ export default function ListView({ items, favorites, onToggleFavorite }) {
       {/* === 商品清單 === */}
       <div className="list-view">
         {currentItems.map((item) => {
+          const matchedKey = Object.keys(CATEGORY_IMAGE_MAP).find((key) =>
+            item.Item_Name.includes(key)
+          );
+
           const imageSrc =
-            CATEGORY_IMAGE_MAP[item.Item_Name] ||
-            `https://picsum.photos/seed/${encodeURIComponent(item.Item_Name)}/400/300`;
+            (matchedKey && CATEGORY_IMAGE_MAP[matchedKey]) ||
+            `https://picsum.photos/seed/${encodeURIComponent(item.Item_Name)}/600/400`;
+
           const isFav = favorites.some((f) => f.Item_Name === item.Item_Name);
 
           return (

@@ -39,8 +39,12 @@ export default function Card({
     }
   };
 
+  const matchedKey = Object.keys(CATEGORY_IMAGE_MAP).find((key) =>
+    item.Item_Name.includes(key)
+  );
+
   const imageSrc =
-    CATEGORY_IMAGE_MAP[item.Item_Name] ||
+    (matchedKey && CATEGORY_IMAGE_MAP[matchedKey]) ||
     `https://picsum.photos/seed/${encodeURIComponent(item.Item_Name)}/600/400`;
 
   return (
