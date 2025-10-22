@@ -22,7 +22,6 @@ __pycache__/
 
 # Custom generated folders
 /analyze_results
-/data
 
 # Log files
 npm-debug.log*

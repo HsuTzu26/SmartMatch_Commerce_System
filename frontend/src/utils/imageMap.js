@@ -5,7 +5,7 @@ export const CATEGORY_IMAGE_MAP = {
   "降噪藍牙耳機": "https://earphoneman.com/wp-content/uploads/2022/08/Apple-Airpods-Pro-2.jpeg",
   "27吋4K螢幕": "https://image.benq.com/is/image/benqco/pd2725u-left45?$ResponsivePreset$&fmt=png-alpha",
   "RGB機械鍵盤": "https://resource.logitechg.com/w_386,ar_1.0,c_limit,f_auto,q_auto,dpr_2.0/d_transparent.gif/content/dam/gaming/en/products/lol-pro-x-keyboard/gallery/league-of-legends-pro-x-gaming-keyboard-gallery-1.png?v=1",
-  "無線電競滑鼠": "https://shoplineimg.com/5d12e6019b45870001eeb0d4/6628666d05a4cf001d5c112d/800x.webp?source_format=jpg",
+  "無線電競滑鼠": "https://store.logitech.tw/cdn/shop/products/pro-wireless-670846.jpg?v=1729179623&width=1800",
 
   // 服飾配件
   "純棉設計T恤": "https://awsresources.baozun.com/prod/96001088/20250815/54418D2D70FCD6DA5DDDD2DC88D39027.jpg?x-oss-process=image/resize,m_pad,w_500,h_650",

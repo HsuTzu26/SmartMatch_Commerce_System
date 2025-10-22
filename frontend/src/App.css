@@ -46,6 +46,22 @@ body {
   transform: rotate(20deg) scale(1.1);
 }
 
+.logo {
+  display: flex;           /* 讓圖片和文字並排 */
+  align-items: center;     /* 垂直置中 */
+  gap: 8px;                /* 圖片與文字間距 */
+  font-size: 20px;         /* 文字大小 */
+  font-weight: 600;        /* 文字加粗 */
+}
+
+.logo-img {
+  width: 60px;             /* 圖片大小可依需求調整 */
+  height: 60px;
+  object-fit: contain;     /* 確保圖片比例不變形 */
+  vertical-align: middle;  /* 額外保險，確保對齊 */
+}
+
+
 /* 確保卡片、清單、收藏根據主題自動調整 */
 .card,
 .favorite-item,
@@ -1257,7 +1273,7 @@ select:hover {
 /* ===================== 滑完卡片總覽 ===================== */
 .swiped-summary-container {
   text-align: center;
-  padding: 30px 20px;
+  padding: 5px 20px;
   max-width: 900px;
   margin: 0 auto;
 }

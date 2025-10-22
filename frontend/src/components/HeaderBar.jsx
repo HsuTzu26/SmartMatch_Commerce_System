@@ -40,7 +40,10 @@ export default function HeaderBar({
   return (
     <header className="app-header glass-header">
       <div className="header-top">
-        <h1 className="logo">🛒 智Go配 (SmartMatch Commerce)</h1>
+      <h1 className="logo">
+        <img src="/logo.png" alt="SmartMatch Commerce Logo" className="logo-img" />
+        智Go配 (SmartMatch Commerce)
+      </h1>
       </div>
 
       {/* 控制區 */}

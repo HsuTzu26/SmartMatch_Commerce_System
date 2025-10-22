@@ -66,7 +66,7 @@ export default function SwipedSummary({
 
   return (
     <div className="swiped-summary-container">
-      <h2>🎉 你已探索完所有商品！</h2>
+      {/* <h2>🎉 你已探索完所有商品！</h2> */}
       <p>看看你喜歡或不喜歡的商品 👇</p>
 
       {/* ❤️ 喜歡的商品 */}
