@@ -2,6 +2,36 @@ import React, { useMemo } from "react";
 import "../App.css";
 import { CATEGORY_IMAGE_MAP } from "../utils/imageMap";
 
+const clothingItems = [
+  "純棉設計T恤",
+  "修身牛仔褲",
+  "防風連帽外套",
+  "法式雪紡洋裝",
+  "羊毛大衣",
+  "圍巾",
+];
+
+const getCarbonFootprint = (itemName) => {
+  if (!itemName) return null;
+
+  // 3C 產品固定值
+  if (itemName.includes("滑鼠")) return Math.floor(Math.random() * (200 - 80 + 1) + 80) + "kg";
+  if (itemName.includes("耳機")) return Math.floor(Math.random() * (200 - 80 + 1) + 80) + "kg";
+  if (itemName.includes("螢幕")) return "330kg";
+  
+  // 服飾固定值
+  if (itemName.includes("鞋")) return "13.6kg";
+
+  // 服飾類隨機值 (15~20kg)
+  if (clothingItems.some((c) => itemName.includes(c))) {
+    const randomValue = Math.floor(Math.random() * (20 - 15 + 1) + 15);
+    return `${randomValue}kg`;
+  }
+
+  // 如果沒有匹配到，返回 null (不顯示標籤)
+  return null;
+};
+
 export default function LiveRecommendations({ likedItems, allItems, favorites, onFavorite }) {
   const categoryCount = useMemo(() => {
     const counts = {};
@@ -28,7 +58,15 @@ export default function LiveRecommendations({ likedItems, allItems, favorites, o
         !likedItems.some((li) => li.Item_Name === i.Item_Name)
     );
 
-    return pool.sort(() => 0.5 - Math.random()).slice(0, 5);
+    // 取出推薦商品後，直接在這裡計算並附加 carbonFootprint 數值
+    // 這樣可以確保數值固定，不會因為組件重繪而一直變動
+    return pool
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 5)
+      .map((item) => ({
+        ...item,
+        carbonFootprint: getCarbonFootprint(item.Item_Name),
+      }));
   }, [sortedCategories, likedItems, allItems]);
 
   if (recommended.length === 0) return null;
@@ -67,6 +105,17 @@ export default function LiveRecommendations({ likedItems, allItems, favorites, o
                 ⭐ {item.Stars?.toFixed(1) || "0"}・💬 {item.Comments || 0}
               </p>
               <p className="price">💰 ${item.Price}</p>
+              {/* --- 2. 顯示碳足跡標籤 --- */}
+                {item.carbonFootprint && (
+                  <div className="carbon-footprint-container" style={{ transform: 'scale(0.8)', margin: '0' }}> 
+                    {/* 這裡加了 scale(0.8) 因為推薦卡片比較小，稍微縮小標籤比較好看 */}
+                    <img
+                      src="/CarbonFootprint_TaiwanEPA.jpeg"
+                      alt="Carbon Footprint"
+                    />
+                    <span className="carbon-value">{item.carbonFootprint}</span>
+                  </div>
+                )}
               <p className="cluster">#{item.Cluster_Name}</p>
             </div>
 

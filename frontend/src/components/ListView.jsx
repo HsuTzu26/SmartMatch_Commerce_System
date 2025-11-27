@@ -2,6 +2,36 @@ import React, { useState, useMemo } from "react";
 import { CATEGORY_IMAGE_MAP } from "../utils/imageMap";
 import "../App.css";
 
+const clothingItems = [
+  "純棉設計T恤",
+  "修身牛仔褲",
+  "防風連帽外套",
+  "法式雪紡洋裝",
+  "羊毛大衣",
+  "圍巾",
+];
+
+const getCarbonFootprint = (itemName) => {
+  if (!itemName) return null;
+
+  // 3C 產品固定值
+  if (itemName.includes("滑鼠")) return Math.floor(Math.random() * (200 - 80 + 1) + 80) + "kg";
+  if (itemName.includes("耳機")) return Math.floor(Math.random() * (200 - 80 + 1) + 80) + "kg";
+  if (itemName.includes("螢幕")) return "330kg";
+  
+  // 服飾固定值
+  if (itemName.includes("鞋")) return "13.6kg";
+
+  // 服飾類隨機值 (15~20kg)
+  if (clothingItems.some((c) => itemName.includes(c))) {
+    const randomValue = Math.floor(Math.random() * (20 - 15 + 1) + 15);
+    return `${randomValue}kg`;
+  }
+
+  // 如果沒有匹配到，返回 null (不顯示標籤)
+  return null;
+};
+
 export default function ListView({ items, favorites, onToggleFavorite }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(3); // 預設顯示 10 筆
@@ -10,7 +40,13 @@ export default function ListView({ items, favorites, onToggleFavorite }) {
 
   const currentItems = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return items.slice(startIndex, startIndex + itemsPerPage);
+    const slice = items.slice(startIndex, startIndex + itemsPerPage);
+    
+    // 這裡進行 map，為每個商品加上固定的碳足跡數值
+    return slice.map(item => ({
+      ...item,
+      carbonFootprint: getCarbonFootprint(item.Item_Name)
+    }));
   }, [items, currentPage, itemsPerPage]);
 
   const handlePageChange = (page) => {
@@ -69,7 +105,23 @@ export default function ListView({ items, favorites, onToggleFavorite }) {
                   ⭐ {item.Stars?.toFixed(1) || "0"}・💬 {item.Comments || 0}・🔥{" "}
                   {item.Selling || 0}
                 </p>
-                <p className="price">💰 ${item.Price}</p>
+                {/* 將價格與碳足跡放在同一行顯示 */}
+                <div className="price-row" style={{ display: 'flex', alignItems: 'center', gap: '15px', marginTop: '8px' }}>
+                  <p className="price" style={{ margin: 0 }}>💰 ${item.Price}</p>
+                  
+                  {/* --- 3. 顯示碳足跡標籤 --- */}
+                  {/* 直接讀取 item.carbonFootprint */}
+                  {item.carbonFootprint && (
+                    <div className="carbon-footprint-container" style={{ margin: 0 }}> 
+                      <img
+                        src="/CarbonFootprint_TaiwanEPA.jpeg"
+                        alt="Carbon Footprint Label"
+                      />
+                      <span className="carbon-value">{item.carbonFootprint}</span>
+                    </div>
+                  )}
+                  {/* ----------------------- */}
+                </div>
               </div>
 
               <button

@@ -483,6 +483,77 @@ select:hover {
   transform: scale(1.05);
 }
 
+/* --- Carbon Footprint Label Styles --- */
+
+/* 標籤的容器：設定為相對定位，以便內部的文字可以絕對定位 */
+.carbon-footprint-container {
+  position: relative;
+  display: inline-block;
+  width: 55px;  /* 調整標籤整體大小，可依需求修改 */
+  height: auto;
+  vertical-align: middle; /* 讓它與價格垂直居中對齊 */
+  margin-left: auto; /* 將標籤推到右側，靠近收藏按鈕 */
+  margin-right: 10px;
+}
+
+/* 標籤圖片本身 */
+.carbon-footprint-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* 可選：添加一點陰影讓它立體些 */
+  filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.1));
+}
+
+/* 疊加在圖片上的數值文字 */
+.carbon-value {
+  position: absolute;
+  /* 關鍵定位：根據圖一的虛線框位置進行估算調整 */
+  top: 38%; 
+  left: 48%;
+  /* 使用 transform 將文字中心點對齊到 top/left 的位置 */
+  transform: translate(-50%, -50%);
+  
+  /* 文字樣式：白色粗體，確保在綠色背景上清晰可見 */
+  color: #ffffff; 
+  font-weight: 800;
+  font-family: Arial, sans-serif; /* 使用清晰的無襯線字體 */
+  font-size: 0.85rem; /* 根據容器大小調整字體大小 */
+  white-space: nowrap; /* 防止文字換行 */
+  
+  /* 添加文字陰影增加可讀性 */
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+  letter-spacing: -0.5px; /* 稍微緊縮字距以放入更多數字 */
+}
+
+/* 調整原有的 card-bottom 以便容納新元素 */
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+/* 確保價格標籤不會擠壓到碳標籤 */
+.price-tag {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #e44d26;
+  flex-shrink: 0; /* 防止價格被壓縮 */
+}
+
+/* 調整收藏按鈕樣式 */
+.favorite-btn {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    flex-shrink: 0; /* 防止按鈕被壓縮 */
+}
+
 /* ====== 手機響應式 ====== */
 @media (max-width: 900px) {
   .main-content {
